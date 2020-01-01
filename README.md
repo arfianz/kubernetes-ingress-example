@@ -2,7 +2,7 @@
 
 Using minikube to run this project. Although, minikube supports (almost) everything you would expect from a kubernetes cluster but since it’s running locally, certain cloud provider features will not work out of the box. One such feature is Ingress.
 
-diagram classes diagram
+Diagram
 ![diagram](./background.png?raw=true)
 
 ## What's Ingress?
