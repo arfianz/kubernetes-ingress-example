@@ -8,45 +8,11 @@ An ingress is a set of rules that allows inbound connections to reach the kubern
 
 Typically, the kubernetes cluster is firewalled from the internet. It has edge routers enforcing the firewall. Kubernetes resources like services, pods, have IPs only routable by the cluster network and are not (directly) accessible outside the cluster. All traffic that ends up at an edge router is either dropped or forwarded elsewhere. So, submitting an ingress to the cluster defines a set of rules for routing external traffic to the kubernetes endpoints.
 
-Let’s skip ahead and view what these rules look like. Here’s one will use for this article.
-
-```yaml
-apiVersion: extensions/v1beta1
-kind: Ingress
-metadata:
-  name: ingress-tutorial
-  annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /
-spec:
-  backend:
-    serviceName: default-http-backend
-    servicePort: 80
-  rules:
-  - host: myminikube.info
-    http:
-      paths:
-      - path: /
-        backend:
-          serviceName: echoserver
-          servicePort: 8080
-  - host: cheeses.all
-    http:
-      paths:
-      - path: /stilton
-        backend:
-          serviceName: stilton-cheese
-          servicePort: 80
-      - path: /cheddar
-        backend:
-          serviceName: cheddar-cheese
-          servicePort: 80
-```
-
 As you might have guessed, the rule is:
 
-`` all requests to myminikube.info/ should be routed to the service in the cluster named echoserver.
-`` requests mapping to cheeses.all/stilton should be routed to the stilton-cheese service.
-`` and finally, requests mapping to cheeses.all/cheddar should be routed to the cheddar-cheese service.
+- all requests to myminikube.info/ should be routed to the service in the cluster named echoserver.
+- requests mapping to cheeses.all/stilton should be routed to the stilton-cheese service.
+- and finally, requests mapping to cheeses.all/cheddar should be routed to the cheddar-cheese service.
 
 Of course, there’s more to it; like the backend tag which implies that unmatched requests should be routed to the default-http-backend service and there’s also the familiar kubernetes tags; for example the apiVersion tag which clearly marks ingress as a beta feature.
 
@@ -75,16 +41,16 @@ minikube addons enable ingress
 ```
 
 Enabling the add-on provisions the following:
-`` a configMap for the Nginx loadbalancer
-`` the Nginx ingress controller
-`` a service that exposes a default Nginx backend pod for handling unmapped requests.
+- a configMap for the Nginx loadbalancer
+- the Nginx ingress controller
+- a service that exposes a default Nginx backend pod for handling unmapped requests.
 
 If you are using an older version of minikube (and insist on not updating) you might need to manually deploy the ingress controller (and default backend service).
 
 The layout of our cluster for this demo is:
 
-`` A backend that will receive requests for myminikube.info and displays some basic information about the cluster and the request.
-`` A pair of backends that will receive the request for cheeses.all .One whose path begins with /stilton and another whose path begins with /cheddar .
+- A backend that will receive requests for myminikube.info and displays some basic information about the cluster and the request.
+- A pair of backends that will receive the request for cheeses.all .One whose path begins with /stilton and another whose path begins with /cheddar .
 
 Nginx already provides a default backend so we need not worry about that.
 
