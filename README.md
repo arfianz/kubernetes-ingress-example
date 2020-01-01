@@ -34,7 +34,7 @@ You can write your own controller but you need not to. There are readily availab
 
 ## Setup
 
-Minikube v0.14.0 (and above) ships with Nginx ingress setup as an add-on (as requested here). It can be easily enabled by executing.
+Minikube v1.6.2 (and above) ships with Nginx ingress setup as an add-on (as requested here). It can be easily enabled by executing.
 
 ```bash
 minikube addons enable ingress
