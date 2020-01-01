@@ -40,7 +40,7 @@ You can write your own controller but you need not to. There are readily availab
 Minikube v1.6.2 (and above) ships with Nginx ingress setup as an add-on (as requested here). It can be easily enabled by executing.
 
 ```bash
-minikube addons enable ingress
+$ minikube addons enable ingress
 ```
 
 Enabling the add-on provisions the following:
@@ -60,14 +60,14 @@ Nginx already provides a default backend so we need not worry about that.
 Let’s set up the echoserver deployments and expose them:
 
 ```bash
-kubectl run echoserver --image=gcr.io/google_containers/echoserver:1.4 --port=8080
-kubectl expose deployment echoserver --type=NodePort
+$ kubectl run echoserver --image=gcr.io/google_containers/echoserver:1.4 --port=8080
+$ kubectl expose deployment echoserver --type=NodePort
 ```
 
 Then confirm that requests can get to the service
 
 ```bash
-minikube service echoserver
+$ minikube service echoserver
 ```
 
 This should open the service in your default browser.
@@ -75,22 +75,22 @@ This should open the service in your default browser.
 Next we setup the backend for /stilton cheese
 
 ```bash
-kubectl run stilton-cheese --image=errm/cheese:stilton --port=80
-kubectl expose deployment stilton-cheese --type=NodePort
+$ kubectl run stilton-cheese --image=errm/cheese:stilton --port=80
+$ kubectl expose deployment stilton-cheese --type=NodePort
 ```
 
 You can also check out the service:
 
 ```bash
-minikube service stilton-cheese
+$ minikube service stilton-cheese
 ```
 
 Finally the /cheddar cheese
 
 ```bash
-kubectl run cheddar-cheese --image=errm/cheese:cheddar --port=80
-kubectl expose deployment cheddar-cheese --type=NodePort
-minikube service cheddar-cheese
+$ kubectl run cheddar-cheese --image=errm/cheese:cheddar --port=80
+$ kubectl expose deployment cheddar-cheese --type=NodePort
+$ minikube service cheddar-cheese
 ```
 
 Thus far, we can access the services via the [minikube ip]:[node port] address. Our aim, however, is to access them via myminikube.info , cheeses.all/stilton and cheeses.all/cheddar . And that’s where ingress comes in.
@@ -98,13 +98,13 @@ Thus far, we can access the services via the [minikube ip]:[node port] address. 
 To setup ingress, enable the minikube add-on
 
 ```bash
-minikube addons enable ingress
+$ minikube addons enable ingress
 ```
 
 Copy the ingress definition above and save to a file ingress-demo.yaml Then we create the ingress resource
 
 ```bash
-kubectl create -f ingress-demo.yaml
+$ kubectl create -f ingress-demo.yaml
 ```
 
 You can run kubectl describe ing ingress-tutorial for information on the requested ingress.
@@ -114,16 +114,16 @@ Now, the last bit is to update our /etc/hosts file to route requests from mymini
 Execute
 
 ```bash
-echo "$(minikube ip) myminikube.info cheeses.all" | sudo tee -a /etc/hosts
+$ echo "$(minikube ip) myminikube.info cheeses.all" | sudo tee -a /etc/hosts
 ```
 
 to add the following lines to your /etc/hosts file.
 
 ```bash
-[minikube ip] myminikube.info cheeses.all
+<minikube ip> myminikube.info cheeses.all
 ```
 
-[minikube ip] will be replaced with the actual IP of your minikube instance.
+<minikube ip> will be replaced with the actual IP of your minikube instance.
 
 And our work is done.
 
@@ -138,8 +138,8 @@ In this section, we will explore a few basics of debugging. The following show h
 Prints a detailed description of the selected pods, which includes events.
 
 ```bash
-kubectl get pods -n kube-system | grep nginx-ingress-controller
-kubectl describe pods -n kube-system nginx-ingress-controller-xxxxxx-yyyy
+$ kubectl get pods -n kube-system | grep nginx-ingress-controller
+$ kubectl describe pods -n kube-system nginx-ingress-controller-xxxxxx-yyyy
 ```
 
 ### View the Logs
@@ -147,7 +147,7 @@ kubectl describe pods -n kube-system nginx-ingress-controller-xxxxxx-yyyy
 Prints the logs for the nginx-ingress-controller.
 
 ```bash
-kubectl logs -n kube-system nginx-ingress-controller-xxxxxx-yyyy
+$ kubectl logs -n kube-system nginx-ingress-controller-xxxxxx-yyyy
 ```
 
 ### View the Nginx Conf
@@ -155,7 +155,7 @@ kubectl logs -n kube-system nginx-ingress-controller-xxxxxx-yyyy
 Displays how nginx configures the application routing rules.
 
 ```bash
-kubectl exec -it -n kube-system nginx-ingress-controller-xxxxxx-yyyy cat /etc/nginx/nginx.conf
+$ kubectl exec -it -n kube-system nginx-ingress-controller-xxxxxx-yyyy cat /etc/nginx/nginx.conf
 ```
 
 ## LICENSE
