@@ -125,3 +125,47 @@ to add the following lines to your /etc/hosts file.
 And our work is done.
 
 Test it out by visiting myminikube.info , cheeses.all/stilton , cheeses.all/cheddar from your browser
+
+## Basic Debugging
+
+In this section, we will explore a few basics of debugging. The following show how to gather basic information, which can be useful to determine what’s going on.
+
+### Describe the Pods
+
+Prints a detailed description of the selected pods, which includes events.
+
+```bash
+kubectl get pods -n kube-system | grep nginx-ingress-controller
+kubectl describe pods -n kube-system nginx-ingress-controller-xxxxxx-yyyy
+```
+
+### View the Logs
+
+Prints the logs for the nginx-ingress-controller.
+
+```bash
+kubectl logs -n kube-system nginx-ingress-controller-xxxxxx-yyyy
+```
+
+### View the Nginx Conf
+
+Displays how nginx configures the application routing rules.
+
+```bash
+kubectl exec -it -n kube-system nginx-ingress-controller-xxxxxx-yyyy cat /etc/nginx/nginx.conf
+```
+
+## LICENSE
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
